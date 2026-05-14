@@ -8,7 +8,7 @@ export default defineConfig({
   cleanUrls: true,
   // 部署到 GitHub Pages 时需要配置 base
   // 如果仓库名是 java-fullstack-notes，则 base: '/java-fullstack-notes/'
-  // base: '/你的仓库名/',
+  base: '/java-fullstack-notes/',
   
   themeConfig: {
     logo: '/logo.svg',
