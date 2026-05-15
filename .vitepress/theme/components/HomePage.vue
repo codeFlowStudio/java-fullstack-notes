@@ -88,6 +88,16 @@ const baseCards = [
     link: '/scenarios/trade/seckill'
   },
   {
+    title: 'AI Coding',
+    subtitle: 'AI Pair Programming & LLM',
+    desc: 'AI IDE 选型、Prompt 工程、Custom Agent / Skill 设计、Spring AI 与 LangChain4j 实战、RAG 落地',
+    topics: ['AI IDE', 'Spring AI', 'LangChain4j', 'RAG'],
+    color: 'teal',
+    icon: '🤖',
+    sidebarKey: '/ai-coding/',
+    link: '/ai-coding/tools/ide-comparison'
+  },
+  {
     title: '工具｜经验',
     subtitle: 'Toolchain & Methodology',
     desc: 'Git/Maven/单测工具链，代码规范、接口设计、技术写作、性能调优、故障排查方法论',
@@ -134,10 +144,23 @@ const learningPaths = ref([
   { num: 1, title: 'Java 基础', desc: '语法、OOP、集合、泛型、反射', link: '/java/basics/language-features' },
   { num: 2, title: '并发与 JVM', desc: 'JMM、线程池、AQS、GC 调优', link: '/java/concurrency/thread-basics' },
   { num: 3, title: '框架与中间件', desc: 'Spring 全家桶、MyBatis、MQ、RPC', link: '/framework/spring/ioc' },
-  { num: 4, title: '架构与实战', desc: '分布式、高可用、DDD、场景方案', link: '/architecture/system/distributed/cap-base' }
+  { num: 4, title: '架构与实战', desc: '分布式、高可用、DDD、场景方案', link: '/architecture/system/distributed/cap-base' },
+  { num: 5, title: 'AI Coding 实战', desc: 'AI IDE、Prompt 工程、Spring AI / RAG 落地', link: '/ai-coding/tools/ide-comparison' }
 ])
 
 const featuredArticles = ref([
+  {
+    title: 'AI IDE 选型对比：Qoder / Cursor / Copilot',
+    path: 'AI Coding / 工具与上手',
+    tag: '实践热点',
+    link: '/ai-coding/tools/ide-comparison'
+  },
+  {
+    title: 'Spring AI 入门与实战',
+    path: 'AI Coding / Java + LLM',
+    tag: 'AI 实战',
+    link: '/ai-coding/java-llm/spring-ai'
+  },
   {
     title: 'Spring IOC 容器原理',
     path: '框架 / Spring',
@@ -155,19 +178,14 @@ const featuredArticles = ref([
     path: '数据库 / MySQL',
     tag: '实战',
     link: '/database/sql/mysql/index'
-  },
-  {
-    title: 'AQS 框架源码',
-    path: 'Java / 并发编程',
-    tag: '深度',
-    link: '/java/concurrency/aqs'
-  },
-  {
-    title: '分布式锁',
-    path: '架构 / 分布式',
-    tag: '场景',
-    link: '/architecture/system/distributed/lock'
   }
+])
+
+const aiHighlights = ref([
+  { icon: '🤖', title: 'AI IDE 实战', desc: 'Qoder / Cursor / Copilot 对比与选型心得', link: '/ai-coding/tools/ide-comparison' },
+  { icon: '⚡️', title: 'Custom Agent 与 Skill', desc: '从 Prompt 到可复用智能体的工程设计', link: '/ai-coding/engineering/custom-agent' },
+  { icon: '☕', title: 'Spring AI 与 RAG', desc: 'Java 后端集成 LLM 与向量检索', link: '/ai-coding/java-llm/spring-ai' },
+  { icon: '🧠', title: 'Vibe Coding 方法论', desc: 'AI 协作开发的思考、踩坑与改进', link: '/ai-coding/methodology/vibe-coding' }
 ])
 
 const friendLinks = ref([
@@ -188,7 +206,7 @@ const friendLinks = ref([
           Java <span class="highlight">全栈</span>实战录
         </h1>
         <p class="hero-desc">
-          源自一线实战，专注 Java 全栈技术栈。覆盖后端、框架、中间件、数据库、分布式、前端等核心技术，助你构建完整知识体系
+          源自一线实战，专注 Java 全栈技术栈，并重点记录 <strong class="hero-ai">AI Coding</strong> 在真实项目中的实践与思考。覆盖后端、框架、中间件、数据库、分布式、AI 协作开发等核心领域，助你构建完整知识体系
         </p>
         
         <div class="hero-stats">
@@ -208,6 +226,29 @@ const friendLinks = ref([
             <div class="num">{{ stats.totalProjects }}</div>
             <div class="label">个实战项目</div>
           </div>
+        </div>
+      </div>
+
+      <div class="ai-highlight">
+        <div class="ai-highlight-header">
+          <div class="ai-tag">✨ 本站重点</div>
+          <h2>AI Coding 实践专栏</h2>
+          <p class="ai-sub">
+            从 AI IDE 上手、Custom Agent / Skill 设计，到 Spring AI 与 RAG 落地，再到 AI 协作开发的方法论<br/>
+            这里记录的不是玩具演示，而是真实项目中踩过的坑与总结出的实践。
+          </p>
+        </div>
+        <div class="ai-highlight-grid">
+          <a
+            v-for="(item, i) in aiHighlights"
+            :key="i"
+            :href="withBase(item.link)"
+            class="ai-highlight-card"
+          >
+            <div class="ai-card-icon">{{ item.icon }}</div>
+            <div class="ai-card-title">{{ item.title }}</div>
+            <div class="ai-card-desc">{{ item.desc }}</div>
+          </a>
         </div>
       </div>
 
@@ -334,6 +375,103 @@ const friendLinks = ref([
 
 .hero-title .highlight {
   color: var(--vp-c-green);
+}
+
+.hero-ai {
+  color: var(--vp-c-teal, #009688);
+  font-weight: 700;
+}
+
+/* AI 亮点专栏 */
+.ai-highlight {
+  margin: 56px 0 8px;
+  padding: 36px 32px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, var(--vp-c-brand-lighter) 0%, var(--vp-c-green-lighter) 100%);
+  border: 1px solid var(--vp-c-divider);
+}
+
+.ai-highlight-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.ai-tag {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: var(--vp-c-bg);
+  color: var(--vp-c-brand);
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.ai-highlight-header h2 {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--vp-c-text-1);
+  margin: 0 0 10px;
+}
+
+.ai-sub {
+  font-size: 14px;
+  color: var(--vp-c-text-2);
+  line-height: 1.7;
+  margin: 0;
+}
+
+.ai-highlight-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+@media (max-width: 1024px) {
+  .ai-highlight-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .ai-highlight-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.ai-highlight-card {
+  background: var(--vp-c-bg);
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 12px;
+  padding: 18px 16px;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.2s;
+  text-align: left;
+}
+
+.ai-highlight-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--vp-c-brand);
+  box-shadow: 0 8px 24px rgba(63,127,212,0.12);
+}
+
+.ai-card-icon {
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+
+.ai-card-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--vp-c-text-1);
+  margin-bottom: 4px;
+}
+
+.ai-card-desc {
+  font-size: 12px;
+  color: var(--vp-c-text-3);
+  line-height: 1.5;
 }
 
 .hero-desc {
@@ -550,8 +688,14 @@ const friendLinks = ref([
 
 .path-cards {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 16px;
+}
+
+@media (max-width: 1200px) {
+  .path-cards {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 @media (max-width: 1024px) {

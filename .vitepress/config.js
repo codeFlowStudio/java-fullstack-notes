@@ -169,6 +169,48 @@ export default defineConfig({
         ]
       },
       {
+        text: 'AI Coding',
+        items: [
+          {
+            text: '工具与上手',
+            items: [
+              { text: 'AI IDE 选型对比', link: '/ai-coding/tools/ide-comparison' },
+              { text: 'Prompt 工程基础', link: '/ai-coding/tools/prompt-engineering' },
+              { text: '上下文管理与模型选型', link: '/ai-coding/tools/context-model' },
+              { text: '常见 AI 工作流实战', link: '/ai-coding/tools/workflow' },
+            ]
+          },
+          {
+            text: '工程化协作',
+            items: [
+              { text: 'Custom Agent 设计模式', link: '/ai-coding/engineering/custom-agent' },
+              { text: 'Skill 与 Rule 编写规范', link: '/ai-coding/engineering/skill-rule' },
+              { text: 'MCP 协议与工具扩展', link: '/ai-coding/engineering/mcp' },
+              { text: 'AI 代码安全与质量门禁', link: '/ai-coding/engineering/security' },
+            ]
+          },
+          {
+            text: 'Java + LLM 实战',
+            items: [
+              { text: 'Spring AI 入门与实战', link: '/ai-coding/java-llm/spring-ai' },
+              { text: 'LangChain4j 框架解析', link: '/ai-coding/java-llm/langchain4j' },
+              { text: 'RAG 在 Java 项目落地', link: '/ai-coding/java-llm/rag' },
+              { text: 'Function Calling 与工具调用', link: '/ai-coding/java-llm/function-calling' },
+              { text: '向量数据库选型', link: '/ai-coding/java-llm/vector-db' },
+            ]
+          },
+          {
+            text: '方法论与协作',
+            items: [
+              { text: 'Vibe Coding 实战', link: '/ai-coding/methodology/vibe-coding' },
+              { text: '大型项目 AI 协作模式', link: '/ai-coding/methodology/team-collab' },
+              { text: 'AI 辅助 Code Review', link: '/ai-coding/methodology/code-review' },
+              { text: 'AI 与 DDD / Clean Architecture', link: '/ai-coding/methodology/ddd-with-ai' },
+            ]
+          }
+        ]
+      },
+      {
         text: '场景解决方案',
         items: [
           {
@@ -596,6 +638,46 @@ export default defineConfig({
         }
       ]
 
+      const aiCodingSidebar = [
+        {
+          text: '工具与上手',
+          items: [
+            { text: 'AI IDE 选型对比', link: '/ai-coding/tools/ide-comparison' },
+            { text: 'Prompt 工程基础', link: '/ai-coding/tools/prompt-engineering' },
+            { text: '上下文管理与模型选型', link: '/ai-coding/tools/context-model' },
+            { text: '常见 AI 工作流实战', link: '/ai-coding/tools/workflow' },
+          ]
+        },
+        {
+          text: '工程化协作',
+          items: [
+            { text: 'Custom Agent 设计模式', link: '/ai-coding/engineering/custom-agent' },
+            { text: 'Skill 与 Rule 编写规范', link: '/ai-coding/engineering/skill-rule' },
+            { text: 'MCP 协议与工具扩展', link: '/ai-coding/engineering/mcp' },
+            { text: 'AI 代码安全与质量门禁', link: '/ai-coding/engineering/security' },
+          ]
+        },
+        {
+          text: 'Java + LLM 实战',
+          items: [
+            { text: 'Spring AI 入门与实战', link: '/ai-coding/java-llm/spring-ai' },
+            { text: 'LangChain4j 框架解析', link: '/ai-coding/java-llm/langchain4j' },
+            { text: 'RAG 在 Java 项目落地', link: '/ai-coding/java-llm/rag' },
+            { text: 'Function Calling 与工具调用', link: '/ai-coding/java-llm/function-calling' },
+            { text: '向量数据库选型', link: '/ai-coding/java-llm/vector-db' },
+          ]
+        },
+        {
+          text: '方法论与协作',
+          items: [
+            { text: 'Vibe Coding 实战', link: '/ai-coding/methodology/vibe-coding' },
+            { text: '大型项目 AI 协作模式', link: '/ai-coding/methodology/team-collab' },
+            { text: 'AI 辅助 Code Review', link: '/ai-coding/methodology/code-review' },
+            { text: 'AI 与 DDD / Clean Architecture', link: '/ai-coding/methodology/ddd-with-ai' },
+          ]
+        }
+      ]
+
       return {
         '/java/': javaSidebar,
         '/framework/': frameworkMiddlewareSidebar,
@@ -605,6 +687,7 @@ export default defineConfig({
         '/architecture/': architectureSidebar,
         '/cs/': csSidebar,
         '/devops/': devopsSidebar,
+        '/ai-coding/': aiCodingSidebar,
         '/scenarios/': scenariosSidebar,
         '/tools/': toolsExpSidebar,
         '/methodology/': toolsExpSidebar,

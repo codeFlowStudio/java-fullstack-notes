@@ -10,7 +10,10 @@
     <section class="about-section">
       <h2>📚 站点介绍</h2>
       <p>
-        <strong>Java全栈实战录</strong> 是代码流工作室出品的技术实战平台。内容源自作者多年一线开发经验，涵盖 Java 后端、主流框架、中间件、数据库、分布式架构、前端等核心技术，助你构建完整的全栈知识体系。
+        <strong>Java全栈实战录</strong> 是代码流工作室出品的技术实战平台。内容源自作者多年一线开发经验，涵盖 Java 后端、主流框架、中间件、数据库、分布式架构等核心技术，助你构建完整的全栈知识体系。
+      </p>
+      <p>
+        除了传统的 Java 全栈知识沉淀，本站还有一个重点方向——记录 <strong class="about-ai">AI Coding 在真实项目中的实践</strong>：从 AI IDE 选型、Prompt 工程，到 Custom Agent / Skill / MCP 的工程化落地，再到 Spring AI、LangChain4j、RAG 在 Java 后端的真实集成经验。
       </p>
     </section>
 
@@ -21,6 +24,7 @@
       <ul class="mission-list">
         <li><strong>实战导向</strong>：所有内容源自真实项目经验，拒绝纸上谈兵</li>
         <li><strong>系统全面</strong>：覆盖 Java 全栈技术栈，构建完整知识体系</li>
+        <li><strong>AI 优先</strong>：将 AI Coding 作为一线开发者的新基本功认真对待</li>
         <li><strong>精准简洁</strong>：直击技术要点，帮助你高效学习</li>
         <li><strong>持续更新</strong>：跟随技术发展，保持内容前沿性</li>
       </ul>
@@ -43,6 +47,7 @@
             <li>🖥️ <strong>计算机基础</strong>：网络 / 操作系统 / 网络编程 / Linux</li>
             <li>🐳 <strong>工程｜部署</strong>：Docker / K8s / CI/CD / 监控体系</li>
             <li>🚀 <strong>场景解决方案</strong>：交易场景 / 数据场景实战</li>
+            <li>🤖 <strong>AI Coding</strong>：AI IDE / Agent / Skill / MCP / Spring AI / RAG</li>
             <li>🛠️ <strong>工具｜经验</strong>：工具链与开发方法论</li>
           </ul>
         </div>
@@ -69,14 +74,35 @@
       </div>
     </section>
 
+    <!-- AI Coding 重点说明 -->
+    <section class="about-section ai-section">
+      <div class="ai-tag-pill">✨ 本站重点</div>
+      <h2>🤖 AI Coding 实践</h2>
+      <p>
+        AI 已经从「生成代码片段的玩具」变成了真实开发流程中不可或缺的协作者。本站把 <strong>AI Coding</strong> 作为一条独立主线认真维护，目标是回答这些<strong>一线开发者真正会遇到的问题</strong>：
+      </p>
+      <ul class="ai-questions">
+        <li><strong>工具选型</strong>：Qoder / Cursor / Copilot / Claude Code 怎么选？分别适合什么场景？</li>
+        <li><strong>上下文管理</strong>：长项目、多模块、跨仓库时，如何让 AI 理解你的真实代码？</li>
+        <li><strong>工程化协作</strong>：如何把临时 Prompt 沉淀为可复用的 Custom Agent、Skill、Rule？MCP 协议如何扩展工具能力？</li>
+        <li><strong>Java + LLM 落地</strong>：Spring AI、LangChain4j、RAG、Function Calling 在企业项目里怎么用？向量库如何选？</li>
+        <li><strong>方法论</strong>：Vibe Coding 怎么不变成「Vibe Bug」？AI 协作下的 Code Review、DDD、架构演进会发生什么变化？</li>
+      </ul>
+      <p class="ai-callout">
+        这里记录的不是 Demo，而是<strong>真实项目中踩过的坑与沉淀下来的实践</strong>。如果你也在用 AI 写真实的产品代码，希望这里有用。
+      </p>
+      <a :href="withBase('/ai-coding/tools/ide-comparison')" class="ai-entry">进入 AI Coding 模块 →</a>
+    </section>
+
     <!-- 作者信息 -->
     <section class="about-section">
       <h2>👨‍💻 作者信息</h2>
       <p>
-        我是一名热爱技术的全栈开发者，深耕 Java 生态系统多年。创建这个网站的初衷是：
+        我是一名热爱技术的全栈开发者，深耕 Java 生态系统多年，同时也在持续探索 <strong>AI 辅助开发</strong> 在团队和个人工作流中的真正落地方式。创建这个网站的初衷是：
       </p>
       <ol class="numbered-list">
         <li>整理和沉淀多年实战经验，形成系统化知识体系</li>
+        <li>把 AI Coding 的探索过程公开记录，少走重复的弯路</li>
         <li>帮助其他开发者少走弯路，快速掌握全栈技术</li>
         <li>与技术社区共同成长，分享一线开发实践</li>
       </ol>
@@ -86,8 +112,8 @@
     <section class="about-section">
       <h2>📧 联系方式</h2>
       <ul class="contact-list">
-        <li><strong>GitHub</strong>: <a href="https://github.com" target="_blank">https://github.com</a></li>
-        <li><strong>Email</strong>: example@email.com</li>
+        <li><strong>GitHub</strong>: <a href="https://github.com/codeflowstudio" target="_blank">codeflowstudio</a></li>
+        <li><strong>Email</strong>: 18270692119@163.com</li>
         <li><strong>微信</strong>: 暂无</li>
       </ul>
     </section>
@@ -100,6 +126,7 @@
         <li>在 GitHub 上提交 Issue 或 Pull Request</li>
         <li>分享本站内容到你的社交平台</li>
         <li>提供内容建议或错误反馈</li>
+        <li>如果你也在做 AI Coding 相关实践，非常欢迎交流</li>
       </ol>
     </section>
 
@@ -120,13 +147,13 @@
 
 <script setup>
 import { computed } from 'vue'
-import { useData } from 'vitepress'
+import { useData, withBase } from 'vitepress'
 import { allProjects } from '../data/projects.js'
 
 const { theme } = useData()
 
 // 与 HomePage 保持一致的统计逻辑
-const sidebarKeys = ['/java/', '/framework/', '/database/', '/algorithm/', '/architecture/', '/cs/', '/devops/', '/scenarios/', '/tools/']
+const sidebarKeys = ['/java/', '/framework/', '/database/', '/algorithm/', '/architecture/', '/cs/', '/devops/', '/scenarios/', '/ai-coding/', '/tools/']
 
 const stats = computed(() => {
   const sidebar = theme.value.sidebar || {}
@@ -315,6 +342,82 @@ const stats = computed(() => {
 
 .about-tip strong {
   color: var(--vp-c-text-1);
+}
+
+/* AI Coding 亮点区块 */
+.about-ai {
+  color: var(--vp-c-teal, #009688);
+  font-weight: 700;
+}
+
+.ai-section {
+  position: relative;
+  padding: 28px 28px 24px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--vp-c-brand-lighter) 0%, var(--vp-c-green-lighter) 100%);
+  border: 1px solid var(--vp-c-divider);
+}
+
+.ai-tag-pill {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: var(--vp-c-bg);
+  color: var(--vp-c-brand);
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.ai-questions {
+  list-style: none;
+  padding-left: 0 !important;
+  margin: 16px 0;
+}
+
+.ai-questions li {
+  padding: 10px 0 10px 20px !important;
+  font-size: 14.5px;
+  line-height: 1.7;
+  color: var(--vp-c-text-2);
+  position: relative;
+  border-bottom: 1px dashed var(--vp-c-divider);
+}
+
+.ai-questions li:last-child {
+  border-bottom: none;
+}
+
+.ai-questions li::before {
+  content: '◆' !important;
+  color: var(--vp-c-brand) !important;
+}
+
+.ai-callout {
+  padding: 14px 16px;
+  background: var(--vp-c-bg);
+  border-radius: 8px;
+  border-left: 3px solid var(--vp-c-brand);
+  margin-top: 16px !important;
+  font-size: 14px !important;
+}
+
+.ai-entry {
+  display: inline-block;
+  margin-top: 16px;
+  padding: 8px 16px;
+  background: var(--vp-c-brand);
+  color: #fff !important;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none !important;
+  transition: all 0.2s;
+}
+
+.ai-entry:hover {
+  transform: translateX(3px);
+  box-shadow: 0 4px 12px rgba(63,127,212,0.25);
 }
 
 @media (max-width: 768px) {
