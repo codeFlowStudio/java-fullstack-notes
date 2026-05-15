@@ -1,5 +1,5 @@
 <script setup>
-import { useData, useRoute } from 'vitepress'
+import { useData, useRoute, withBase } from 'vitepress'
 import { computed } from 'vue'
 import { VPNavBarSearch } from 'vitepress/theme'
 import HomePage from './components/HomePage.vue'
@@ -10,6 +10,19 @@ import BackToTop from './components/BackToTop.vue'
 const { theme, site } = useData()
 const route = useRoute()
 
+// 统一剧本：剧去 base 前缀与 index.html 后缀，用于路由判断
+const normalizedPath = computed(() => {
+  let p = route.path || '/'
+  const base = site.value.base || '/'
+  if (base !== '/' && p.startsWith(base)) {
+    p = p.slice(base.length - 1) || '/'
+  }
+  // 去掉 .html 后缀、处理 /index
+  p = p.replace(/index\.html?$/, '').replace(/\.html?$/, '')
+  if (p === '') p = '/'
+  return p
+})
+
 // 获取当前路径对应的侧边栏
 const currentSidebar = computed(() => {
   const sidebar = theme.value.sidebar
@@ -17,7 +30,7 @@ const currentSidebar = computed(() => {
   
   // 按路径匹配侧边栏
   for (const [path, items] of Object.entries(sidebar)) {
-    if (route.path.startsWith(path)) {
+    if (path !== '/' && normalizedPath.value.startsWith(path)) {
       return items
     }
   }
@@ -27,23 +40,24 @@ const currentSidebar = computed(() => {
 
 // 判断是否显示侧边栏
 const showSidebar = computed(() => {
-  const path = route.path
-  // 项目实战和关于页不显示侧边栏
+  const path = normalizedPath.value
   return path !== '/projects/' && path !== '/about' && path !== '/about.html'
 })
 
 // 判断是否是首页
-const isHomePage = computed(() => route.path === '/')
+const isHomePage = computed(() => normalizedPath.value === '/')
 
 // 判断是否是特殊页面（不显示侧边栏）
 const isSpecialPage = computed(() => {
-  const path = route.path
-  // 首页、项目实战和关于页不显示侧边栏
-  return path === '/' || path === '/projects/' || path === '/projects' || path === '/about' || path === '/about.html'
+  const path = normalizedPath.value
+  return path === '/' || path === '/projects/' || path === '/projects' || path === '/about' || path === '/about.html' || path === '/about/'
 })
 
 // 判断是否是关于页
-const isAboutPage = computed(() => route.path === '/about' || route.path === '/about.html')
+const isAboutPage = computed(() => {
+  const p = normalizedPath.value
+  return p === '/about' || p === '/about.html' || p === '/about/'
+})
 </script>
 
 <template>
@@ -53,10 +67,10 @@ const isAboutPage = computed(() => route.path === '/about' || route.path === '/a
       <div class="header-container">
         <!-- 左侧：Logo + 网站名称 + 搜索 -->
         <div class="header-left">
-          <a href="/" class="logo-link">
-            <img src="/logo.svg" alt="Java全栈实战录 Logo" class="site-logo" />
+          <a :href="withBase('/')" class="logo-link">
+            <img :src="withBase('/logo.svg')" alt="Java全栈实战录 Logo" class="site-logo" />
           </a>
-          <a href="/" class="site-title">Java全栈实战录</a>
+          <a :href="withBase('/')" class="site-title">Java全栈实战录</a>
           <div class="header-search">
             <VPNavBarSearch />
           </div>
@@ -74,22 +88,36 @@ const isAboutPage = computed(() => route.path === '/about' || route.path === '/a
                 </svg>
               </button>
               <div class="dropdown-menu">
-                <a 
-                  v-for="subItem in item.items" 
-                  :key="subItem.link"
-                  :href="subItem.link"
-                  class="dropdown-item"
-                >
-                  {{ subItem.text }}
-                </a>
+                <template v-for="(subItem, idx) in item.items" :key="subItem.text">
+                  <!-- 嵌套分组：有 items 则渲染为分组标题 + 子链接 -->
+                  <div v-if="subItem.items" class="dropdown-group" :class="{ 'has-divider': idx > 0 }">
+                    <div class="dropdown-group-title">{{ subItem.text }}</div>
+                    <a
+                      v-for="leaf in subItem.items"
+                      :key="leaf.link"
+                      :href="withBase(leaf.link)"
+                      class="dropdown-item"
+                    >
+                      {{ leaf.text }}
+                    </a>
+                  </div>
+                  <!-- 普通链接项 -->
+                  <a
+                    v-else
+                    :href="withBase(subItem.link)"
+                    class="dropdown-item"
+                  >
+                    {{ subItem.text }}
+                  </a>
+                </template>
               </div>
             </div>
             <!-- 普通导航项 -->
             <a 
               v-else
-              :href="item.link"
+              :href="withBase(item.link)"
               class="nav-link"
-              :class="{ active: route.path === item.link || route.path.startsWith(item.link) }"
+              :class="{ active: normalizedPath === item.link || (item.link !== '/' && normalizedPath.startsWith(item.link)) }"
             >
               {{ item.text }}
             </a>
@@ -114,9 +142,9 @@ const isAboutPage = computed(() => route.path === '/about' || route.path === '/a
                 v-for="item in group.items" 
                 :key="item.link"
                 class="sidebar-item"
-                :class="{ active: route.path === item.link }"
+                :class="{ active: normalizedPath === item.link }"
               >
-                <a :href="item.link">{{ item.text }}</a>
+                <a :href="withBase(item.link)">{{ item.text }}</a>
               </li>
             </ul>
           </div>
@@ -212,16 +240,16 @@ const isAboutPage = computed(() => route.path === '/about' || route.path === '/a
 .header-nav {
   display: flex;
   align-items: center;
-  gap: 40px;
+  gap: 28px;
 }
 
 .nav-link {
-  font-size: 17px;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 500;
   color: var(--vp-c-text-2);
   text-decoration: none;
   transition: color 0.2s;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.3px;
 }
 
 .nav-link:hover,
@@ -257,12 +285,12 @@ const isAboutPage = computed(() => route.path === '/about' || route.path === '/a
   left: 50%;
   transform: translateX(-50%);
   margin-top: 8px;
-  padding: 8px 0;
+  padding: 10px 0;
   background: var(--vp-c-bg);
   border: 1px solid var(--vp-c-divider);
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  min-width: 160px;
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  min-width: 200px;
   opacity: 0;
   visibility: hidden;
   transition: all 0.2s ease;
@@ -274,14 +302,35 @@ const isAboutPage = computed(() => route.path === '/about' || route.path === '/a
   visibility: visible;
 }
 
+/* 分组容器 */
+.dropdown-group {
+  padding: 6px 0;
+}
+
+.dropdown-group.has-divider {
+  border-top: 1px solid var(--vp-c-divider);
+  margin-top: 6px;
+  padding-top: 10px;
+}
+
+/* 分组标题 */
+.dropdown-group-title {
+  padding: 4px 20px 6px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--vp-c-text-1);
+  letter-spacing: 0.4px;
+  text-transform: none;
+}
+
 .dropdown-item {
   display: block;
-  padding: 10px 20px;
-  font-size: 15px;
-  font-weight: 500;
+  padding: 7px 20px;
+  font-size: 13px;
+  font-weight: 400;
   color: var(--vp-c-text-2);
   text-decoration: none;
-  transition: all 0.2s ease;
+  transition: all 0.18s ease;
   white-space: nowrap;
 }
 

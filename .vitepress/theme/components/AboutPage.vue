@@ -32,16 +32,18 @@
       
       <div class="features-grid">
         <div class="feature-card">
-          <h3>全栈技术栈</h3>
-          <p>覆盖完整的技术体系：</p>
+          <h3>全栈技术体系</h3>
+          <p>覆盖 {{ stats.totalModules }} 大知识模块、{{ stats.totalArticles }} 篇系统化文章、{{ stats.totalProjects }} 个实战项目：</p>
           <ul>
-            <li>☕ <strong>Java 后端</strong>：基础语法、JVM、并发编程</li>
-            <li>🌱 <strong>主流框架</strong>：Spring、Spring Boot、Spring Cloud</li>
-            <li>📡 <strong>中间件</strong>：消息队列、缓存、RPC</li>
-            <li>💾 <strong>数据库</strong>：MySQL、MongoDB、Elasticsearch</li>
-            <li>🏛️ <strong>分布式</strong>：高性能、高可用、海量数据</li>
-            <li>💻 <strong>前端框架</strong>：Vue.js、React</li>
-            <li>🚀 <strong>项目实战</strong>：真实项目案例</li>
+            <li>☕ <strong>Java</strong>：基础语法 / 集合容器 / 并发编程 / JVM</li>
+            <li>🌱 <strong>框架｜中间件</strong>：Spring 全家桶 / MyBatis / MQ / RPC / Netty</li>
+            <li>💾 <strong>数据库</strong>：MySQL / Redis / ElasticSearch / MongoDB</li>
+            <li>🧮 <strong>数据结构｜算法</strong>：数据结构与算法技巧</li>
+            <li>🏛️ <strong>架构｜设计</strong>：分布式 / 高可用 / DDD / 设计模式</li>
+            <li>🖥️ <strong>计算机基础</strong>：网络 / 操作系统 / 网络编程 / Linux</li>
+            <li>🐳 <strong>工程｜部署</strong>：Docker / K8s / CI/CD / 监控体系</li>
+            <li>🚀 <strong>场景解决方案</strong>：交易场景 / 数据场景实战</li>
+            <li>🛠️ <strong>工具｜经验</strong>：工具链与开发方法论</li>
           </ul>
         </div>
 
@@ -117,7 +119,33 @@
 </template>
 
 <script setup>
-// About Page 组件
+import { computed } from 'vue'
+import { useData } from 'vitepress'
+import { allProjects } from '../data/projects.js'
+
+const { theme } = useData()
+
+// 与 HomePage 保持一致的统计逻辑
+const sidebarKeys = ['/java/', '/framework/', '/database/', '/algorithm/', '/architecture/', '/cs/', '/devops/', '/scenarios/', '/tools/']
+
+const stats = computed(() => {
+  const sidebar = theme.value.sidebar || {}
+  let totalArticles = 0
+  let totalGroups = 0
+  for (const key of sidebarKeys) {
+    const groups = sidebar[key] || []
+    totalGroups += groups.length
+    for (const g of groups) {
+      totalArticles += (g.items?.length || 0)
+    }
+  }
+  return {
+    totalArticles,
+    totalModules: sidebarKeys.length,
+    totalGroups,
+    totalProjects: allProjects.length
+  }
+})
 </script>
 
 <style scoped>

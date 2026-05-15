@@ -1,145 +1,172 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import { useData, withBase } from 'vitepress'
+import { completedProjects, ongoingProjects } from '../data/projects.js'
 
-const knowledgeCards = ref([
+const { theme } = useData()
+
+// 卡片基础信息（不含动态字段 count）；sidebarKey 用于从 sidebar 配置中统计文章数
+const baseCards = [
   {
-    title: 'Java 基础',
-    subtitle: 'Java Core Fundamentals',
-    desc: '语言基础、面向对象、集合框架、IO/NIO、异常处理、泛型与注解等核心知识',
-    topics: ['面向对象', '集合框架', 'IO 模型', '泛型', '注解'],
-    count: '32 篇',
-    updated: '3 天前更新',
+    title: 'Java',
+    subtitle: 'Java Core / Concurrency / JVM',
+    desc: '基础语法、面向对象、集合容器、并发编程、JVM 内存与 GC 调优等核心知识',
+    topics: ['基础语法', '集合容器', '并发编程', 'JVM'],
     color: 'blue',
     icon: '☕',
-    link: '/java-core/'
+    sidebarKey: '/java/',
+    link: '/java/basics/language-features'
   },
   {
-    title: 'JVM 虚拟机',
-    subtitle: 'JVM Internals & Tuning',
-    desc: '类加载机制、内存模型、垃圾回收算法与调优、字节码与执行引擎深入解析',
-    topics: ['类加载', '内存模型', 'GC 调优', 'JIT'],
-    count: '18 篇',
-    updated: '1 周前更新',
-    color: 'green',
-    icon: '🔧',
-    link: '/java-core/jvm-classloader'
-  },
-  {
-    title: '并发编程',
-    subtitle: 'Concurrency & Multithreading',
-    desc: '线程基础、锁机制、JUC 并发工具包、线程池原理、并发设计模式与实战',
-    topics: ['线程池', '锁机制', 'JUC', 'AQS', 'CAS'],
-    count: '24 篇',
-    updated: '5 天前更新',
-    color: 'orange',
-    icon: '⚡',
-    link: '/java-core/thread-basics'
-  },
-  {
-    title: 'Spring 生态',
-    subtitle: 'Spring / Boot / Cloud',
-    desc: 'Spring Core、Spring Boot 自动装配、Spring Cloud 微服务全家桶深度解析',
-    topics: ['IoC/AOP', 'Boot', 'Cloud', 'Security'],
-    count: '28 篇',
-    updated: '2 天前更新',
+    title: '框架｜中间件',
+    subtitle: 'Spring / MyBatis / MQ / RPC / Netty',
+    desc: 'Spring 全家桶、MyBatis 源码、消息队列、RPC 服务治理、Netty 与分库分表',
+    topics: ['Spring', 'Spring Cloud', 'MQ', 'Dubbo', 'Netty'],
     color: 'green',
     icon: '🌱',
-    link: '/framework/spring-core'
+    sidebarKey: '/framework/',
+    link: '/framework/spring/ioc'
   },
   {
     title: '数据库',
-    subtitle: 'MySQL / Redis / MongoDB',
-    desc: 'MySQL 索引与调优、事务与锁、Redis 数据结构与应用、分库分表方案',
-    topics: ['MySQL', 'Redis', '索引优化', '分库分表'],
-    count: '22 篇',
-    updated: '1 周前更新',
+    subtitle: 'MySQL / Redis / ES / MongoDB',
+    desc: 'MySQL 索引/事务/锁/调优，Redis 数据结构与集群，ES 倒排索引，MongoDB 文档模型',
+    topics: ['MySQL', 'Redis', 'ElasticSearch', 'MongoDB'],
     color: 'purple',
     icon: '💾',
-    link: '/database/mysql-index'
+    sidebarKey: '/database/',
+    link: '/database/sql/mysql/architecture'
   },
   {
-    title: '中间件',
-    subtitle: 'MQ / RPC / Gateway',
-    desc: '消息队列原理（Kafka/RocketMQ）、RPC 框架、API 网关、服务注册与发现',
-    topics: ['Kafka', 'RocketMQ', 'Dubbo', 'Nacos'],
-    count: '16 篇',
-    updated: '4 天前更新',
-    color: 'red',
-    icon: '📡',
-    link: '/architecture/'
+    title: '数据结构｜算法',
+    subtitle: 'Data Structures & Algorithms',
+    desc: '数组链表、哈希表、栈队列、树图堆，双指针、动态规划、回溯贪心、排序分治等',
+    topics: ['数据结构', '动态规划', '双指针', '架构师视角'],
+    color: 'orange',
+    icon: '🧮',
+    sidebarKey: '/algorithm/',
+    link: '/algorithm/ds/array-list'
   },
   {
-    title: '架构设计',
+    title: '架构｜设计',
     subtitle: 'System Design & Patterns',
-    desc: '设计模式、DDD 领域驱动、微服务架构拆分策略、分布式系统设计要点',
-    topics: ['设计模式', 'DDD', '微服务', '高可用'],
-    count: '20 篇',
-    updated: '6 天前更新',
-    color: 'blue',
+    desc: '分布式、高性能、高可用、架构演进与 DDD 建模，以及 23 种设计模式深度应用',
+    topics: ['分布式', '高可用', 'DDD', '设计模式'],
+    color: 'red',
     icon: '🏛️',
-    link: '/architecture/design-patterns'
+    sidebarKey: '/architecture/',
+    link: '/architecture/system/distributed/cap-base'
   },
   {
-    title: 'DevOps',
-    subtitle: 'Docker / K8s / CI/CD',
-    desc: '容器化部署、Kubernetes 编排、Jenkins 流水线、日志监控告警体系搭建',
-    topics: ['Docker', 'K8s', 'Jenkins', 'Prometheus'],
-    count: '14 篇',
-    updated: '3 天前更新',
+    title: '计算机基础',
+    subtitle: 'Network / OS / Linux',
+    desc: '计算机网络、操作系统、网络编程（BIO/NIO/epoll）、Linux 性能诊断与 Shell',
+    topics: ['TCP/HTTP', '操作系统', 'epoll', 'Linux'],
     color: 'teal',
-    icon: '🐳',
-    link: '/devops/docker'
+    icon: '🖥️',
+    sidebarKey: '/cs/',
+    link: '/cs/network/layered-model'
   },
   {
-    title: '项目实战',
-    subtitle: 'Real-world Projects',
-    desc: '电商系统、秒杀架构、权限管理、工作流引擎等完整项目从零到部署',
-    topics: ['电商', '秒杀', 'RBAC', '工作流'],
-    count: '12 篇',
-    updated: '1 周前更新',
+    title: '工程｜部署',
+    subtitle: 'Docker / K8s / CI-CD',
+    desc: '容器化部署、Kubernetes 编排、CI/CD 流水线、监控与日志体系搭建',
+    topics: ['Docker', 'Kubernetes', 'CI/CD', '监控'],
+    color: 'blue',
+    icon: '🐳',
+    sidebarKey: '/devops/',
+    link: '/devops/container/docker/core'
+  },
+  {
+    title: '场景解决方案',
+    subtitle: 'Real-world Solutions',
+    desc: '秒杀系统、订单超时、分布式登录、幂等设计、海量数据、限流熔断等场景实战',
+    topics: ['秒杀', '幂等', '一致性', '限流熔断'],
     color: 'orange',
     icon: '🚀',
-    link: '/projects/'
+    sidebarKey: '/scenarios/',
+    link: '/scenarios/trade/seckill'
+  },
+  {
+    title: '工具｜经验',
+    subtitle: 'Toolchain & Methodology',
+    desc: 'Git/Maven/单测工具链，代码规范、接口设计、技术写作、性能调优、故障排查方法论',
+    topics: ['Git', 'Maven', '代码规范', '故障排查'],
+    color: 'green',
+    icon: '🛠️',
+    sidebarKey: '/tools/',
+    link: '/tools/git'
   }
-])
+]
+
+// 工具：根据 sidebarKey 统计文章数 / 子分组数
+function articlesOf(key) {
+  const groups = theme.value.sidebar?.[key] || []
+  return groups.reduce((sum, g) => sum + (g.items?.length || 0), 0)
+}
+function groupsOf(key) {
+  return (theme.value.sidebar?.[key] || []).length
+}
+
+// 知识卡片：count 字段动态计算
+const knowledgeCards = computed(() =>
+  baseCards.map(c => ({ ...c, count: `${articlesOf(c.sidebarKey)} 篇`, updated: '持续更新' }))
+)
+
+// 全站统计：动态汇总
+const stats = computed(() => {
+  const keys = baseCards.map(c => c.sidebarKey)
+  let totalArticles = 0
+  let totalGroups = 0
+  for (const key of keys) {
+    totalArticles += articlesOf(key)
+    totalGroups += groupsOf(key)
+  }
+  return {
+    totalArticles,
+    totalModules: baseCards.length,
+    totalGroups,
+    totalProjects: completedProjects.length + ongoingProjects.length
+  }
+})
 
 const learningPaths = ref([
-  { num: 1, title: 'Java 基础', desc: '语言特性、OOP、集合、IO', link: '/java-core/' },
-  { num: 2, title: 'JVM & 并发', desc: '内存模型、GC、锁、线程池', link: '/java-core/jvm-memory' },
-  { num: 3, title: 'Spring 全家桶', desc: 'IoC、AOP、Boot、Cloud', link: '/framework/spring-core' },
-  { num: 4, title: '架构 & 实战', desc: '分布式、微服务、项目落地', link: '/architecture/' }
+  { num: 1, title: 'Java 基础', desc: '语法、OOP、集合、泛型、反射', link: '/java/basics/language-features' },
+  { num: 2, title: '并发与 JVM', desc: 'JMM、线程池、AQS、GC 调优', link: '/java/concurrency/thread-basics' },
+  { num: 3, title: '框架与中间件', desc: 'Spring 全家桶、MyBatis、MQ、RPC', link: '/framework/spring/ioc' },
+  { num: 4, title: '架构与实战', desc: '分布式、高可用、DDD、场景方案', link: '/architecture/system/distributed/cap-base' }
 ])
 
-const recentArticles = ref([
+const featuredArticles = ref([
   {
-    title: 'Spring Boot 3.x 自动装配原理深度解析',
-    path: '框架 / Spring Boot',
-    date: '2026-05-12',
-    link: '/framework/spring-boot-autoconfigure'
+    title: 'Spring IOC 容器原理',
+    path: '框架 / Spring',
+    tag: '高频面试',
+    link: '/framework/spring/ioc'
   },
   {
-    title: 'MySQL 索引失效的 10 种常见场景与解决方案',
+    title: 'HashMap 深度剖析',
+    path: 'Java / 集合容器',
+    tag: '必读',
+    link: '/java/collections/hashmap'
+  },
+  {
+    title: 'MySQL 索引原理与优化',
     path: '数据库 / MySQL',
-    date: '2026-05-11',
-    link: '/database/mysql-index'
+    tag: '实战',
+    link: '/database/sql/mysql/index'
   },
   {
-    title: 'JUC 并发工具包源码分析 - CountDownLatch',
-    path: 'Java 基础 / 并发编程',
-    date: '2026-05-10',
-    link: '/java-core/thread-basics'
+    title: 'AQS 框架源码',
+    path: 'Java / 并发编程',
+    tag: '深度',
+    link: '/java/concurrency/aqs'
   },
   {
-    title: 'Kubernetes Pod 调度策略全解析',
-    path: 'DevOps / Kubernetes',
-    date: '2026-05-09',
-    link: '/devops/kubernetes'
-  },
-  {
-    title: 'Redis 分布式锁的正确实现方式（Redisson）',
-    path: '数据库 / Redis',
-    date: '2026-05-08',
-    link: '/database/redis-data-structure'
+    title: '分布式锁',
+    path: '架构 / 分布式',
+    tag: '场景',
+    link: '/architecture/system/distributed/lock'
   }
 ])
 
@@ -166,16 +193,20 @@ const friendLinks = ref([
         
         <div class="hero-stats">
           <div class="hero-stat">
-            <div class="num">200+</div>
+            <div class="num">{{ stats.totalArticles }}</div>
             <div class="label">篇文章</div>
           </div>
           <div class="hero-stat">
-            <div class="num">15</div>
+            <div class="num">{{ stats.totalModules }}</div>
             <div class="label">大知识模块</div>
           </div>
           <div class="hero-stat">
-            <div class="num">50+</div>
-            <div class="label">知识图谱</div>
+            <div class="num">{{ stats.totalGroups }}</div>
+            <div class="label">子分类专栏</div>
+          </div>
+          <div class="hero-stat">
+            <div class="num">{{ stats.totalProjects }}</div>
+            <div class="label">个实战项目</div>
           </div>
         </div>
       </div>
@@ -190,7 +221,7 @@ const friendLinks = ref([
         <a 
           v-for="(card, index) in knowledgeCards" 
           :key="index"
-          :href="card.link"
+          :href="withBase(card.link)"
           class="knowledge-card"
           :class="card.color"
         >
@@ -224,7 +255,7 @@ const friendLinks = ref([
           <a 
             v-for="path in learningPaths" 
             :key="path.num"
-            :href="path.link"
+            :href="withBase(path.link)"
             class="path-card"
           >
             <div class="path-num">{{ path.num }}</div>
@@ -235,23 +266,23 @@ const friendLinks = ref([
       </div>
 
       <div class="section-header">
-        <div class="section-icon">📝</div>
-        <h2>最近更新</h2>
+        <div class="section-icon">⭐</div>
+        <h2>精选推荐</h2>
       </div>
 
       <div class="recent-list">
         <a 
-          v-for="(article, index) in recentArticles" 
+          v-for="(article, index) in featuredArticles" 
           :key="index"
-          :href="article.link"
+          :href="withBase(article.link)"
           class="recent-item"
         >
-          <div class="ri-icon">📄</div>
+          <div class="ri-icon">⭐</div>
           <div class="ri-content">
             <div class="ri-title">{{ article.title }}</div>
             <div class="ri-path">{{ article.path }}</div>
           </div>
-          <span class="ri-date">{{ article.date }}</span>
+          <span class="ri-date">{{ article.tag }}</span>
         </a>
       </div>
 
@@ -315,8 +346,15 @@ const friendLinks = ref([
 .hero-stats {
   display: flex;
   justify-content: center;
-  gap: 60px;
+  flex-wrap: wrap;
+  gap: 48px;
   margin-top: 36px;
+}
+
+@media (max-width: 640px) {
+  .hero-stats {
+    gap: 24px 32px;
+  }
 }
 
 .hero-stat {

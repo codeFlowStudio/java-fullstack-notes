@@ -26,7 +26,7 @@ npm install
 npm run dev
 ```
 
-访问 http://localhost:5173 预览网站。
+访问 `http://localhost:5173` 预览网站。
 
 ### 构建生产版本
 
