@@ -641,6 +641,6 @@ export default defineConfig({
   },
 
   head: [
-    ['link', { rel: 'icon', href: '/logo.svg' }],
+    ['link', { rel: 'icon', href: '/java-fullstack-notes/logo.svg' }],
   ],
 })
