@@ -46,6 +46,7 @@
             <li>🏛️ <strong>架构｜设计</strong>：分布式 / 高可用 / DDD / 设计模式</li>
             <li>🖥️ <strong>计算机基础</strong>：网络 / 操作系统 / 网络编程 / Linux</li>
             <li>🐳 <strong>工程｜部署</strong>：Docker / K8s / CI/CD / 监控体系</li>
+            <li>🎨 <strong>前端</strong>：Vue 3 / React / TypeScript / Vite / 微前端</li>
             <li>🚀 <strong>场景解决方案</strong>：交易场景 / 数据场景实战</li>
             <li>🤖 <strong>AI Coding</strong>：AI IDE / Agent / Skill / MCP / Spring AI / RAG</li>
             <li>🛠️ <strong>工具｜经验</strong>：工具链与开发方法论</li>
@@ -153,7 +154,7 @@ import { allProjects } from '../data/projects.js'
 const { theme } = useData()
 
 // 与 HomePage 保持一致的统计逻辑
-const sidebarKeys = ['/java/', '/framework/', '/database/', '/algorithm/', '/architecture/', '/cs/', '/devops/', '/scenarios/', '/ai-coding/', '/tools/']
+const sidebarKeys = ['/java/', '/framework/', '/database/', '/algorithm/', '/architecture/', '/cs/', '/devops/', '/frontend/', '/scenarios/', '/ai-coding/', '/tools/']
 
 const stats = computed(() => {
   const sidebar = theme.value.sidebar || {}

@@ -169,6 +169,44 @@ export default defineConfig({
         ]
       },
       {
+        text: '前端',
+        items: [
+          {
+            text: '基础',
+            items: [
+              { text: 'HTML / CSS', link: '/frontend/basics/html-css' },
+              { text: 'JavaScript', link: '/frontend/basics/javascript' },
+              { text: 'TypeScript', link: '/frontend/basics/typescript' },
+            ]
+          },
+          {
+            text: '框架',
+            items: [
+              { text: 'Vue 3', link: '/frontend/framework/vue3' },
+              { text: 'React', link: '/frontend/framework/react' },
+              { text: '状态管理', link: '/frontend/framework/state-mgmt' },
+            ]
+          },
+          {
+            text: '工程化',
+            items: [
+              { text: 'Vite', link: '/frontend/engineering/vite' },
+              { text: 'Webpack', link: '/frontend/engineering/webpack' },
+              { text: 'Monorepo', link: '/frontend/engineering/monorepo' },
+              { text: '性能优化', link: '/frontend/engineering/performance' },
+            ]
+          },
+          {
+            text: '实践专题',
+            items: [
+              { text: 'SSR / SSG', link: '/frontend/practice/ssr' },
+              { text: '微前端', link: '/frontend/practice/micro-frontend' },
+              { text: '组件设计', link: '/frontend/practice/component-design' },
+            ]
+          }
+        ]
+      },
+      {
         text: 'AI Coding',
         items: [
           {
@@ -638,6 +676,42 @@ export default defineConfig({
         }
       ]
 
+      const frontendSidebar = [
+        {
+          text: '基础',
+          items: [
+            { text: 'HTML / CSS', link: '/frontend/basics/html-css' },
+            { text: 'JavaScript', link: '/frontend/basics/javascript' },
+            { text: 'TypeScript', link: '/frontend/basics/typescript' },
+          ]
+        },
+        {
+          text: '框架',
+          items: [
+            { text: 'Vue 3', link: '/frontend/framework/vue3' },
+            { text: 'React', link: '/frontend/framework/react' },
+            { text: '状态管理', link: '/frontend/framework/state-mgmt' },
+          ]
+        },
+        {
+          text: '工程化',
+          items: [
+            { text: 'Vite', link: '/frontend/engineering/vite' },
+            { text: 'Webpack', link: '/frontend/engineering/webpack' },
+            { text: 'Monorepo', link: '/frontend/engineering/monorepo' },
+            { text: '性能优化', link: '/frontend/engineering/performance' },
+          ]
+        },
+        {
+          text: '实践专题',
+          items: [
+            { text: 'SSR / SSG', link: '/frontend/practice/ssr' },
+            { text: '微前端', link: '/frontend/practice/micro-frontend' },
+            { text: '组件设计', link: '/frontend/practice/component-design' },
+          ]
+        }
+      ]
+
       const aiCodingSidebar = [
         {
           text: '工具与上手',
@@ -687,6 +761,7 @@ export default defineConfig({
         '/architecture/': architectureSidebar,
         '/cs/': csSidebar,
         '/devops/': devopsSidebar,
+        '/frontend/': frontendSidebar,
         '/ai-coding/': aiCodingSidebar,
         '/scenarios/': scenariosSidebar,
         '/tools/': toolsExpSidebar,

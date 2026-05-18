@@ -78,6 +78,16 @@ const baseCards = [
     link: '/devops/container/docker/core'
   },
   {
+    title: '前端',
+    subtitle: 'Vue / React / 工程化',
+    desc: 'HTML/CSS/JS/TS 基础、Vue 3 与 React 框架、Vite/Webpack 工程化、SSR、微前端、组件设计',
+    topics: ['Vue 3', 'React', 'TypeScript', 'Vite'],
+    color: 'purple',
+    icon: '🎨',
+    sidebarKey: '/frontend/',
+    link: '/frontend/basics/html-css'
+  },
+  {
     title: '场景解决方案',
     subtitle: 'Real-world Solutions',
     desc: '秒杀系统、订单超时、分布式登录、幂等设计、海量数据、限流熔断等场景实战',
